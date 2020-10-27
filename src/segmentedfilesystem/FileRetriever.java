@@ -1,13 +1,39 @@
 package segmentedfilesystem;
 
+import java.io.*;
+import java.net.Socket;
+
 public class FileRetriever {
 
-	public FileRetriever(String server, int port) {
+	String server;
+	int port;
+
+	public FileRetriever(String server, int port){
         // Save the server and port for use in `downloadFiles()`
         //...
+		this.server = server;
+		this.port = port;
+
 	}
 
-	public void downloadFiles() {
+	public void downloadFiles() throws IOException {
+		Socket socket = new Socket(server, port);
+		InputStream in = socket.getInputStream();
+		OutputStream out = socket.getOutputStream();
+		PacketManager manage = new PacketManager(pack);
+		try {
+			int download;
+			while(((download = in.read()) != 1)){
+				download
+
+			}
+
+		}
+		catch (IOException e){
+		e.printStackTrace();
+	}
+
+
         // Do all the heavy lifting here.
         // This should
         //   * Connect to the server
@@ -21,5 +47,7 @@ public class FileRetriever {
         // call for that, but there are a bunch of possible
         // ways.
 	}
+
+
 
 }
