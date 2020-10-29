@@ -28,6 +28,7 @@ public class FileRetriever {
 	public void downloadFiles() throws IOException {
 		address = InetAddress.getByName(server);
 		socket = new DatagramSocket(port, address);
+		socket.send(packet);
 		try {
 			while(true) {
 				socket.receive(packet);
