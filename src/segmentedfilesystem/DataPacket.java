@@ -14,18 +14,18 @@ public class DataPacket {
     public DataPacket(DatagramPacket packet){
         this.data = packet.getData();
         this.setPackNum();
-	this.ID = data[1];
-	this.status = data[0];
-	int length = packet.getLength();
-	this.info = Arrays.copyOfRange(packet.getData(), 4, length);
-	this.added = false;
+	    this.ID = data[1];
+	    this.status = data[0];
+	    int length = packet.getLength();
+	    this.info = Arrays.copyOfRange(packet.getData(), 4, length);
+	    this.added = false;
     }
     public void setPackNum() {
-	int x = Byte.toUnsignedInt(data[2]);
-	int y = Byte.toUnsignedInt(data[3]);
-	this.packNum = (256 * x + y);
+	    int x = Byte.toUnsignedInt(data[2]);
+	    int y = Byte.toUnsignedInt(data[3]);
+	    this.packNum = (256 * x + y);
     }
     public byte getID() {
-         return ID;
+        return ID;
     }
 }
