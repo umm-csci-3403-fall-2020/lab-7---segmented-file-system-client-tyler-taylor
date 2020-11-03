@@ -1,36 +1,48 @@
 package segmentedfilesystem;
 
 import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class FileRetriever {
 
 	String server;
 	int port;
+	DatagramSocket socket;
+	InetAddress address;
+	DatagramPacket packet;
 
 	public FileRetriever(String server, int port){
         // Save the server and port for use in `downloadFiles()`
         //...
 		this.server = server;
 		this.port = port;
+		this.socket = socket;
+		this.address = address;
+		this.packet = packet;
 
 	}
 
 	public void downloadFiles() throws IOException {
-		Socket socket = new Socket(server, port);
-		InputStream in = socket.getInputStream();
-		OutputStream out = socket.getOutputStream();
-		PacketManager manage = new PacketManager(pack);
+		address = InetAddress.getByName(server);
+		socket = new DatagramSocket(port, address);
 		try {
-			int download;
-			while(((download = in.read()) != 1)){
-				download
+			while(true) {
+				socket.receive(packet);
+				byte[] temp = packet.getData();
 
+				if (temp[0] % 2 == 1) {
+					DataPacket data = new DataPacket(packet);
+				} else {
+					//HeaderFile header = new HeaderFile(packet);
+				}
 			}
 
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		catch (IOException e){
-		e.printStackTrace();
 	}
 
 
@@ -50,4 +62,4 @@ public class FileRetriever {
 
 
 
-}
+
