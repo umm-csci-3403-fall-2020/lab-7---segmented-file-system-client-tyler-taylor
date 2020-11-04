@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class FileRetriever {
 
@@ -26,19 +27,30 @@ public class FileRetriever {
 	}
 
 	public void downloadFiles() throws IOException {
+		byte[] buffer = new byte[1028];
+		int length = 1028;
 		address = InetAddress.getByName(server);
-		socket = new DatagramSocket(port, address);
+		socket = new DatagramSocket();
+		packet = new DatagramPacket(buffer, length, address, port);
 		socket.send(packet);
 		try {
+			ArrayList<HeaderPacket> head = new ArrayList<>();
+			ArrayList<DataPacket> dataList = new ArrayList<>();
 			while(true) {
 				socket.receive(packet);
 				byte[] temp = packet.getData();
 
+
 				if (temp[0] % 2 == 1) {
 					DataPacket data = new DataPacket(packet);
-				} else {
-					//HeaderFile header = new HeaderFile(packet);
+					dataList.add(data);
 				}
+				else {
+					HeaderPacket header = new HeaderPacket(packet);
+					PacketManager headManage = new PacketManager(header.getID());
+					head.add(header);
+				}
+
 			}
 
 		} catch (IOException e) {
